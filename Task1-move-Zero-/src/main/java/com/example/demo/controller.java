@@ -1,20 +1,26 @@
 package com.example.demo;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
+@RequestMapping("/api")
 public class controller {
-        public static void exchange(int [] array){
-            for (int j=0; j<array.length; j++){
-                if (array[j]==0)
-                     {
-                        for (int i=array.length-1; i!=j ; i--) {
-                            int temp = array[j];
-                            array[j] = array[i];
-                            array[i] = temp;
-                        }
-                    }
-                System.out.print(array[j]+ " ");
-            }
-            System.out.print("------Expected Output------");
-        }
+	@PostMapping("/Int")
+	public static List<Integer> exchange(@RequestBody ArrayList<Integer> al){
+         List<Integer> result
+				= Stream.concat(
+				al.stream().filter(n -> n != 0), al.stream()
+						.filter(n -> n == 0)).toList();
+		System.out.println(" "+ result);
+		return result;
+	}
+	@GetMapping("/get")
+	public String hello()
+	{
+		return "hello";
+	}
 }
